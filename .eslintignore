@@ -1,0 +1,8 @@
+# Dependency directories
+
+**/models/**
+**/node_modules/**
+**/static/**
+**/tmp/**
+**/schema/**
+**/tests/**
