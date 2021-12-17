@@ -20,7 +20,6 @@ const pwd = process.env.PWD;
 const confUtils = require("../utils/config-utils");
 const config = require("../config");
 const winston = require("winston/lib/winston/config");
-const { marketDataLogging } = require("../constants/strategy");
 
 const customerlogger = createLogger({
   transports: [
@@ -122,8 +121,6 @@ module.exports.log = (args) => {
     apilogger.log(args);
   } else if (args.customerId) {
     customerlogger.log(args);
-  } else if (args.type === "marketDataDeep") {
-    if (marketDataLogging) marketDatalogger.log(args);
   } else {
     systemlogger.log(args);
   }

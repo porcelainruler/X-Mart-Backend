@@ -24,9 +24,9 @@ const dbConnection = require("./models");
 const response = require("./libs/response-handler");
 const confUtils = require("./utils/config-utils");
 
-const adminMiddleware = require("./middlewares/admin");
-const authMiddleware = require("./middlewares/auth");
-const monitorMiddleware = require("./middlewares/monitor");
+// const adminMiddleware = require("./middlewares/admin");
+// const authMiddleware = require("./middlewares/auth");
+// const monitorMiddleware = require("./middlewares/monitor");
 const cronJobs = require("./cronJobs");
 const log = require("./libs/logger-handler").log;
 
@@ -161,13 +161,14 @@ if (!fs.existsSync(config.logDir)) {
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.get("/", monitorMiddleware.serverDetail);
+// app.get("/", monitorMiddleware.serverDetail);
+// TODO: Login
 // API Details : User login api
-app.post("/login", adminMiddleware.getRequestToken);
+// app.post("/login", adminMiddleware.getRequestToken);
 // API Details : User login forgot password send OTP
-app.post("/login/forgot/send-otp", adminMiddleware.forgotPasswordSendOTP);
+// app.post("/login/forgot/send-otp", adminMiddleware.forgotPasswordSendOTP);
 // API Details : User login forgot password check OTP
-app.post("/login/forgot/check-otp", adminMiddleware.forgotPasswordCheckOTP);
+// app.post("/login/forgot/check-otp", adminMiddleware.forgotPasswordCheckOTP);
 
 // ~~~~~~~~~~~~~~~~~~~  Testing ~~~~~~~~~~~~~~~~~~~
 // const testAlert = async (req, res) => {
@@ -188,7 +189,8 @@ app.post("/login/forgot/check-otp", adminMiddleware.forgotPasswordCheckOTP);
  * Validate Header API Key
  */
 
-app.use(authMiddleware.isJWTAuthenticated);
+// TODO: authMiddleware
+// app.use(authMiddleware.isJWTAuthenticated);
 // Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJhZGliYWsyOCAgIiwidXNlclR5cGUiOiJhZG1pbiIsImlhdCI6MTYyNDM2NzYyOCwiZXhwIjoxNjI0NDI3NjI4LCJpc3MiOiJzdHJhdGVneWJ1aWxkZXJiYWNrZW5kIn0.eGAbdH-dLDmIQB7LakpSlBhoTJ6QkFWliBPzvPlPKWU
 
 /*

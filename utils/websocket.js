@@ -2,7 +2,6 @@ var WebSocket = require("ws");
 const { v4: uuidv4 } = require("uuid");
 const config = require("../config");
 const { registerSocket, removeSocket } = require("./udp/sockets");
-const { prepareTmplate } = require("./udp/riskData");
 const { log } = require("../libs/logger-handler");
 
 const wsClient = {};
