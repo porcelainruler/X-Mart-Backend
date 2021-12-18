@@ -185,10 +185,10 @@ module.exports.sendAlertToUser = (userId, message) => {
 };
 
 module.exports.initialiseWebsocket = function (server) {
-  console.log("Opening a web socket server");
+  log({ level: "info", message: "Web socket server initialized. Open for connection/subscription !" });
   const wss = new WebSocket.Server({ server });
   wss.on("connection", this.connected);
-  console.log("running set interval at interval of (ms):", config.websocketPublishInterval);
+  log({ level: "info", message: `Web socket publishing data at frequency: ${config.websocketPublishInterval} ms` });
 };
 
 const sendToWebSocket = (key, message) => {

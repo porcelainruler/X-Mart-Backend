@@ -1,5 +1,6 @@
 const { lokiDataTypes } = require("../../constants/udpConstants");
 const { createNewCollection } = require("../operations/lokijsOperations");
+const log = require("../../libs/logger-handler").log;
 // const { startSendingpacket } = require("./udpTesting");
 
 const initInlineDb = () => {
@@ -9,7 +10,7 @@ const initInlineDb = () => {
   createNewCollection(lokiDataTypes.USER, "accoundId");
   createNewCollection(lokiDataTypes.ALERT_INFO, "userId");
   // startSendingpacket();
-  console.log("Inmemory DB initialized");
+  log({ level: "info", message: "Inmemory DB Initialized" });
 };
 
 module.exports = {

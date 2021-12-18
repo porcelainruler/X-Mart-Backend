@@ -104,7 +104,7 @@ dbConnection.sequelize
     process.exit(1);
   });
 
-console.log("Application server initialized :)");
+log({ level: "info", message: "X-Mart server initialized" });
 
 // var StompClient = require('stomp-client/lib/client').StompClient;
 // var destination = '/queue/nodejspoc';

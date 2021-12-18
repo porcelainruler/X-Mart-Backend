@@ -5,7 +5,7 @@ const Promise = require("bluebird");
 const fs = require("fs");
 
 const pdfGenerator = require("./pdfGenerator");
-const config = require("../config");
+const config = require("../../config");
 
 var transporter = nodemailer.createTransport({
   service: config.emailer.service,
