@@ -1,9 +1,10 @@
 const { lokiDataTypes } = require("../../constants/udpConstants");
 const { createNewCollection } = require("../operations/lokijsOperations");
 const log = require("../../libs/logger-handler").log;
+const { getSubscriptionPlans } = require("../../controller/customer")
 // const { startSendingpacket } = require("./udpTesting");
 
-const initInlineDb = () => {
+const initInlineDb = async () => {
   createNewCollection(lokiDataTypes.INDEX);
   createNewCollection(lokiDataTypes.SOCKET, "socketId");
   createNewCollection(lokiDataTypes.PUBLISH, "esteeId");

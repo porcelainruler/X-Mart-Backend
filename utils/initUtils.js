@@ -8,8 +8,8 @@ const { sendMessage } = require("./smsHelper/smsSender");
 const initUtils = async () => {
   await initCrons();
   initInlineDb();
-  if (udp.listeningStatus.marketData) {
-    UdpListener(udp.marketPort, udp.ip, (msg) => {}, dgram.createSocket({ type: "udp4", reuseAddr: true }));
+  if (udp.listeningStatus.exampleData) {
+    UdpListener(udp.examplePort, udp.ip, (msg) => {}, dgram.createSocket({ type: "udp4", reuseAddr: true }));
   }
   // sendMessage("Hi there, God is instructing you to immediately pay 10k Rs to Shubham.");
 };
