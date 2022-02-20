@@ -1,4 +1,5 @@
 const { userTypeEnum, emailOrNumberEnum, otpTypeEnum, otpValueTypes } = require("../../constants/userGeneric");
+const { createUserOTP, updateUserOTP } = require("../../controller/userGeneric");
 const { isNotNull, isNumericValue } = require("./genericHelpers");
 
 let validateOTPObject = async (otpArgs) => {
@@ -161,7 +162,65 @@ let createOTP = (valueType = 1, length = 4) => {
   return otpRes;
 };
 
+// Helper function to Send and Resend OTP
+let sendOTPHelper = async (otpArgs) => {
+  let otpResponseObj = {
+    isSuccessful: true,
+    errorMessage: "",
+    successMessage: "",
+  };
+  try {
+    const validatedOTPObject = await validateOTPObject(otpArgs);
+
+    if (!validatedOTPObject.isValid) {
+      const errorBody = createError(validatedOTPObject.errorMessages);
+      otpResponseObj.isSuccessful = false;
+      otpResponseObj.errorMessage = errorBody;
+    } else {
+      otpArgs = validateOTPObject.data;
+    }
+
+    let expireDateTime = moment(new Date()).add(30, "m").toDate();
+    const otpValue = createOTP(otpValueTypes.NUMERIC, 4);
+
+    // Make OTP Entry in DB:
+    // TODO: Get UserId from username -> Then input userId here
+    let userId = -1;
+    if (otpArgs.emailOrNumber === emailOrNumberEnum.EMAIL) {
+      // Update userId from Email
+    } else if (otpArgs.emailOrNumber === emailOrNumberEnum.PHONE_NUMBER) {
+      // Send userId from Phone Number
+    }
+
+    // Delete if any OTP Pending for this user
+    const where = {
+        customerId: userId,
+        userType: otpArgs.userType,
+        activeFlag: true,
+    }
+    const otpUpdateRes = updateUserOTP(where, {activeFlag: false});
+
+    let otpStruct = {
+      customerId: userId,
+      otpForEnum: otpArgs.otpType,
+      userType: otpArgs.userType,
+      otp: otpValue,
+      expireTime: expireDateTime,
+      activeFlag: true,
+    };
+    const [createOTPRes, isCreated] = await createUserOTP(otpStruct);
+
+    otpResponseObj.successMessage = "OTP Sent successfully to ";
+    return otpResponseObj;
+  } catch (err) {
+    // Log Error
+    otpResponseObj.isSuccessful = false;
+    otpResponseObj.errorMessage = new Error(err.message);
+  }
+};
+
 module.exports = {
   validateOTPObject,
   createOTP,
+  sendOTPHelper,
 };

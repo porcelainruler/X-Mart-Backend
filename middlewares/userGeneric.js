@@ -1,11 +1,11 @@
 const { createUserOTP } = require("../controller/userGeneric");
 const response = require("../libs/response-handler");
 const { createError } = require("../utils/helperFunctions/genericHelpers");
-const { validateOTPObject, createOTP } = require("../utils/helperFunctions/userGeneric");
+const { validateOTPObject, createOTP, sendOTPHelper } = require("../utils/helperFunctions/userGeneric");
 
 module.exports.sendOTP = async function (req, res) {
   try {
-    const otpArgs = {
+    let otpArgs = {
       userType: req.body.userType,
       // const authType = req.body.authTYPE; //! FOR OTP only authType allowed is X-MArt Auth
       emailOrNumberEnum: req.body.emailOrNumberEnum,
@@ -13,25 +13,16 @@ module.exports.sendOTP = async function (req, res) {
       otpTypeEnum: req.body.otpTypeEnum, // Type of Request
     };
 
-    const validatedOTPObject = await validateOTPObject(otpArgs);
+    const otpResHelper = await sendOTPHelper(otpArgs);
 
-    if (!validatedOTPObject.isValid) {
-      const errorBody = createError(validatedOTPObject.errorMessages);
-      response(errorBody, null, 500, null, req);
+    if (otpResHelper.isSuccessful) {
+      response(null, res, 200, otpResHelper.successMessage, req);
+    } else {
+      response(err, res, 500, null, req);
     }
-
-    const currDateTime = new Date();
-    const otpValue = createOTP(otpValueTypes.NUMERIC, 4);
-
-    // Make OTP Entry in DB:
-    // TODO: Get UserId from username -> Then input userId here
-    let otpStruct = {
-      customerId: userId,
-    };
-    const createOTPRes = await createUserOTP(otpStruct);
   } catch (err) {
     // Log Error Here
-    response(err, null, 500, null, req);
+    response(err, res, 500, null, req);
   }
 };
 
