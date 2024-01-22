@@ -2,6 +2,7 @@
   "name": "X-Mart-Backend",
   "version": "0.0.0",
   "scripts": {
+    "debug": "ts-node ./src",
     "build": "npx ts-node build.ts",
     "lint": "npx eslint --ext .ts src/",
     "lint:tests": "npx eslint --ext .ts spec/",
