@@ -5,6 +5,7 @@ import UserRepo from '@src/repos/UserRepo';
 import PwdUtil from '@src/util/PwdUtil';
 
 import Paths from './Paths';
+import TestAgent from 'supertest/lib/agent';
 
 
 // **** Variables **** //
@@ -20,7 +21,7 @@ const LoginCreds = {
 /**
  * Login a user.
  */
-function login(beforeAgent: SuperTest<Test>, done: (arg: string) => void) {
+function login(beforeAgent: TestAgent<Test>, done: (arg: string) => void) {
   // Setup dummy data
   const role = UserRoles.Admin,
     pwdHash = PwdUtil.hashSync(LoginCreds.password),
