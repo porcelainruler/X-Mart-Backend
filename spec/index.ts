@@ -73,5 +73,6 @@ if (args.testFile) {
     } else {
       logger.err('At least one test has failed :(');
     }
+    process.exit(info.overallStatus === 'passed'? 0 : 1);
   }
 })();
